@@ -1,0 +1,6 @@
+streamlit
+pandas
+requests
+langchain-community
+cohere
+python-dotenv
