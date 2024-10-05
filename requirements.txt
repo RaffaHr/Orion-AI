@@ -1,6 +1,12 @@
+pylint
 streamlit
 pandas
 requests
 langchain-community
 cohere
 python-dotenv
+transformers
+torch 
+torchvision 
+torchaudio
+langchain-cohere
