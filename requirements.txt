@@ -11,3 +11,4 @@ torch
 torchvision 
 torchaudio
 langchain-cohere
+faiss-cpu 
