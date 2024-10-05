@@ -1,142 +1,142 @@
-{
-        {
-            "prompt": "Qual o prazo de acareação da Jadlog após o início do processo?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Quanto tempo leva o processo de acareação pela Jadlog?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Em quantos dias úteis ocorre a acareação da Jadlog?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Qual é o período de acareação da Jadlog depois de iniciado o processo?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Jadlog: qual o prazo para finalizar a acareação?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Qual é o prazo de acareação da Generoso após o início do processo?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Quanto tempo demora o processo de acareação na Generoso?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Em quantos dias úteis ocorre a acareação da Generoso?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Qual o tempo estimado para a acareação da Generoso?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Generoso: qual o prazo para concluir a acareação?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Qual o prazo de acareação da LOGGI após o início do processo?",
-            "completion": "72 horas úteis após início do processo"
-        },
-        {
-            "prompt": "Em quantas horas úteis acontece a acareação da LOGGI?",
-            "completion": "72 horas úteis após início do processo"
-        },
-        {
-            "prompt": "Quanto tempo a LOGGI leva para realizar a acareação?",
-            "completion": "72 horas úteis após início do processo"
-        },
-        {
-            "prompt": "Qual é o período de acareação da LOGGI após o início?",
-            "completion": "72 horas úteis após início do processo"
-        },
-        {
-            "prompt": "LOGGI: qual o prazo para a acareação ser finalizada?",
-            "completion": "72 horas úteis após início do processo"
-        },
-        {
-            "prompt": "Qual o prazo de acareação dos Correios após o início do processo?",
-            "completion": "5 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Correios: quanto tempo leva o processo de acareação?",
-            "completion": "5 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Em quantos dias úteis ocorre a acareação dos Correios?",
-            "completion": "5 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Qual é o prazo para a acareação dos Correios após iniciado o processo?",
-            "completion": "5 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Correios: qual o tempo estimado para a acareação?",
-            "completion": "5 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Qual o prazo de acareação da Favorita após o início do processo?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Quanto tempo leva o processo de acareação na Favorita?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Em quantos dias úteis ocorre a acareação da Favorita?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Qual é o período de acareação da Favorita depois de iniciado o processo?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Favorita: qual o prazo para finalizar a acareação?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Qual o prazo de acareação da J&T após o início do processo?",
-            "completion": "72 horas úteis após início do processo"
-        },
-        {
-            "prompt": "J&T: quanto tempo dura o processo de acareação?",
-            "completion": "72 horas úteis após início do processo"
-        },
-        {
-            "prompt": "Em quantas horas úteis ocorre a acareação da J&T?",
-            "completion": "72 horas úteis após início do processo"
-        },
-        {
-            "prompt": "Qual é o prazo da acareação da J&T depois de iniciado o processo?",
-            "completion": "72 horas úteis após início do processo"
-        },
-        {
-            "prompt": "Quanto tempo a J&T leva para concluir a acareação?",
-            "completion": "72 horas úteis após início do processo"
-        },
-        {
-            "prompt": "Qual o prazo de acareação da Somerlog após o início do processo?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Quanto tempo leva o processo de acareação na Somerlog?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Em quantos dias úteis ocorre a acareação da Somerlog?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Qual é o período de acareação da Somerlog após iniciado o processo?",
-            "completion": "7 dias úteis após início do processo"
-        },
-        {
-            "prompt": "Somerlog: qual o prazo para finalizar a acareação?",
-            "completion": "7 dias úteis após início do processo"
-        }
-}
+[
+    {
+        "prompt": "Qual o prazo de acareação da Jadlog após o início do processo?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Quanto tempo leva o processo de acareação pela Jadlog?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Em quantos dias úteis ocorre a acareação da Jadlog?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Qual é o período de acareação da Jadlog depois de iniciado o processo?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Jadlog: qual o prazo para finalizar a acareação?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Qual é o prazo de acareação da Generoso após o início do processo?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Quanto tempo demora o processo de acareação na Generoso?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Em quantos dias úteis ocorre a acareação da Generoso?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Qual o tempo estimado para a acareação da Generoso?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Generoso: qual o prazo para concluir a acareação?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Qual o prazo de acareação da LOGGI após o início do processo?",
+        "completion": "72 horas úteis após início do processo"
+    },
+    {
+        "prompt": "Em quantas horas úteis acontece a acareação da LOGGI?",
+        "completion": "72 horas úteis após início do processo"
+    },
+    {
+        "prompt": "Quanto tempo a LOGGI leva para realizar a acareação?",
+        "completion": "72 horas úteis após início do processo"
+    },
+    {
+        "prompt": "Qual é o período de acareação da LOGGI após o início?",
+        "completion": "72 horas úteis após início do processo"
+    },
+    {
+        "prompt": "LOGGI: qual o prazo para a acareação ser finalizada?",
+        "completion": "72 horas úteis após início do processo"
+    },
+    {
+        "prompt": "Qual o prazo de acareação dos Correios após o início do processo?",
+        "completion": "5 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Correios: quanto tempo leva o processo de acareação?",
+        "completion": "5 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Em quantos dias úteis ocorre a acareação dos Correios?",
+        "completion": "5 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Qual é o prazo para a acareação dos Correios após iniciado o processo?",
+        "completion": "5 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Correios: qual o tempo estimado para a acareação?",
+        "completion": "5 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Qual o prazo de acareação da Favorita após o início do processo?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Quanto tempo leva o processo de acareação na Favorita?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Em quantos dias úteis ocorre a acareação da Favorita?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Qual é o período de acareação da Favorita depois de iniciado o processo?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Favorita: qual o prazo para finalizar a acareação?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Qual o prazo de acareação da J&T após o início do processo?",
+        "completion": "72 horas úteis após início do processo"
+    },
+    {
+        "prompt": "J&T: quanto tempo dura o processo de acareação?",
+        "completion": "72 horas úteis após início do processo"
+    },
+    {
+        "prompt": "Em quantas horas úteis ocorre a acareação da J&T?",
+        "completion": "72 horas úteis após início do processo"
+    },
+    {
+        "prompt": "Qual é o prazo da acareação da J&T depois de iniciado o processo?",
+        "completion": "72 horas úteis após início do processo"
+    },
+    {
+        "prompt": "Quanto tempo a J&T leva para concluir a acareação?",
+        "completion": "72 horas úteis após início do processo"
+    },
+    {
+        "prompt": "Qual o prazo de acareação da Somerlog após o início do processo?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Quanto tempo leva o processo de acareação na Somerlog?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Em quantos dias úteis ocorre a acareação da Somerlog?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Qual é o período de acareação da Somerlog após iniciado o processo?",
+        "completion": "7 dias úteis após início do processo"
+    },
+    {
+        "prompt": "Somerlog: qual o prazo para finalizar a acareação?",
+        "completion": "7 dias úteis após início do processo"
+    }
+]
