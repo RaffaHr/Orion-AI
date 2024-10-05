@@ -3,6 +3,7 @@ streamlit
 pandas
 requests
 langchain-community
+langchain-cohere
 cohere
 python-dotenv
 transformers
