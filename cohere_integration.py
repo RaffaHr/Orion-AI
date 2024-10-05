@@ -61,7 +61,7 @@ def load_json_data():
             data = json.load(f)
         
         # Criar uma lista de documentos para o retriever a partir do conteúdo do JSON
-        documents = [Document(page_content=item['completion'], metadata={'prompt': item['prompt']}) for item in data]
+        documents = [Document(page_content=item['completions'], metadata={'prompt': item['prompt']}) for item in data]
         
     except Exception as e:
         st.error(f"Erro ao carregar os dados do JSON: {e}")
