@@ -65,7 +65,7 @@ if data is None:
 st.markdown("<h1 style='text-align: center;'>Assistente Virtual - Hiper Bot 🤖</h1>", unsafe_allow_html=True)
 
 def extract_keywords(user_input):
-    keywords = ["prazo", "acareação", "transportadora", "protheus", "nota fiscal", "cce", "cc", "cc-e", "baixar", "emitir nf", "baixar nf", "imprimir nf", "nf", "emitir", "gerar", "jadlog", "generoso", "solistica", "correios", "favorita", "comprovante de entrega", "comprovante"]
+    keywords = ["prazo", "acareação", "acareaçao", "transportadora", "protheus", "nota fiscal", "cce", "cc", "cc-e", "baixar", "emitir nf", "baixar nf", "imprimir nf", "nf", "emitir", "gerar", "jadlog", "generoso", "solistica", "correios", "favorita", "comprovante de entrega", "comprovante"]
     found_keywords = [word for word in keywords if re.search(r'\b' + re.escape(word) + r'\b', user_input.lower())]
     return found_keywords
 
@@ -73,7 +73,6 @@ def run_chain(user_input):
     data = load_json_data()
     keywords = extract_keywords(user_input)
     
-    st.write(f"Palavras-chave encontradas: {keywords}")
     response = None
 
     if keywords:
@@ -91,7 +90,6 @@ def run_chain(user_input):
                     break
 
         if not response:
-            st.write("Verificando sistemas...")
             for sistema in data["sistemas"]:
                 protheus = sistema["sistema"].get("Protheus", {})
                 for key in keywords:
@@ -142,10 +140,13 @@ if selected_chat and selected_chat in st.session_state.conversations:
             st.markdown(message["content"])
 
 if user_input := st.chat_input("Você:", max_chars=100):
+    # Verifica se já existe uma conversa selecionada
     if selected_chat:
+        # Adiciona a mensagem do usuário ao histórico da conversa selecionada
         st.session_state.conversations[selected_chat].append({"role": "user", "content": user_input})
     else:
-        st.session_state.conversations[user_input[:50]] = []
+        # Cria uma nova conversa e adiciona a mensagem do usuário
+        st.session_state.conversations[user_input[:50]] = [{"role": "user", "content": user_input}]  # Adiciona a primeira mensagem
         st.session_state.selected_chat = user_input[:50]
 
     with st.chat_message("user"):
@@ -163,22 +164,39 @@ if user_input := st.chat_input("Você:", max_chars=100):
         assistant_message_placeholder.markdown(
             """
             <style>
-                @keyframes pulse {
-                    0% { background-color: #e0e0e0; }
-                    50% { background-color: #c0c0c0; }
-                    100% { background-color: #e0e0e0; }
+                @keyframes move {
+                    0% {
+                        background-color: #f0f0f0; /* Cor inicial (cinza claro) */
+                        transform: translateX(-100%); /* Começa fora da tela à esquerda */
+                    }
+                    50% {
+                        background-color: #e0e0e0; /* Cor intermediária (cinza um pouco mais escuro) */
+                    }
+                    100% {
+                        background-color: #f0f0f0; /* Volta à cor inicial (cinza claro) */
+                        transform: translateX(100%); /* Sai da tela à direita */
+                    }
                 }
                 .skeleton {
-                    height: 20px; 
+                    height: 30px;  /* Aumente a altura para maior visibilidade */
                     width: 80%; 
                     border-radius: 5px; 
-                    margin: 5px 0;
-                    animation: pulse 1.5s infinite;
+                    margin: 8px 0; 
+                    overflow: hidden; /* Para evitar que a parte animada saia do contêiner */
+                    position: relative; /* Necessário para animação */
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* Sombra mais suave */
+                }
+                .skeleton::before {
+                    content: ''; 
+                    position: absolute; 
+                    height: 100%; 
+                    width: 100%; 
+                    background-color: #f0f0f0; /* Cor inicial (cinza claro) */
+                    animation: move 1.5s infinite; /* Duração da animação */
+                    z-index: 1; /* Para estar acima da camada de fundo */
                 }
             </style>
             <div class="skeleton"></div>
-            <div class="skeleton" style="width: 60%;"></div>
-            <div class="skeleton" style="width: 40%;"></div>
             """,
             unsafe_allow_html=True
         )
@@ -189,4 +207,5 @@ if user_input := st.chat_input("Você:", max_chars=100):
         assistant_message_placeholder.empty()
         simulate_typing(response)  # Simula a digitação da resposta
         
+    # Adiciona a resposta da IA ao histórico da conversa
     st.session_state.conversations[st.session_state.selected_chat].append({"role": "assistant", "content": response})
