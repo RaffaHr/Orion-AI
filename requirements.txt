@@ -1,14 +1,4 @@
-pylint
 streamlit
-pandas
-requests
-langchain-community
-langchain-cohere
-cohere
 python-dotenv
-transformers
-torch 
-torchvision 
-torchaudio
-langchain-cohere
-faiss-cpu 
+requests
+cohere

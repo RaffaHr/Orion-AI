@@ -1,26 +1,90 @@
-[
-  {
-    "prompt": "Prazo de acareação JADLOG",
-    "completions": "A Jadlog tem um prazo de acareação de até 7 dias úteis após o inicio do processo;"
-  },
-  {
-    "prompt": "Prazo de acareação J&T",
-    "completions": "A J&T tem um prazo de acareação de até 72 horas úteis após o inicio do processo;"
-  },
-  {
-    "prompt": "Prazo de acareação GENEROSO",
-    "completions": "A Generoso tem um prazo de acareação de até 7 dias úteis após o inicio do processo;"
-  },
-  {
-    "prompt": "Prazo de acareação SOLISTICA",
-    "completions": "A Solistica tem um prazo de acareação de até 7 dias úteis após o inicio do processo;"
-  },
-  {
-    "prompt": "Prazo de acareação LOGGI",
-    "completions": "A LOGGI tem um prazo de acareação de até 72 horas úteis após o inicio do processo;"
-  },
-  {
-    "prompt": "Prazo de acareação CORREIOS",
-    "completions": "Os CORREIOS tem um prazo de acareação de até 5 dias úteis após o inicio do processo;"
+{
+  "transportadoras": [
+    {
+      "transportadora": {
+        "nome": "JADLOG",
+        "acareação": {
+          "prompt": "Prazo de acareação JADLOG",
+          "completions": "A Jadlog tem um prazo de acareação de até 7 dias úteis após o início do processo."
+        }
+      }
+    },
+    {
+      "transportadora": {
+        "nome": "J&T",
+        "acareação": {
+          "prompt": "Prazo de acareação J&T",
+          "completions": "A J&T tem um prazo de acareação de até 72 horas úteis após o início do processo."
+        }
+      }
+    },
+    {
+      "transportadora": {
+        "nome": "GENEROSO",
+        "acareação": {
+          "prompt": "Prazo de acareação GENEROSO",
+          "completions": "A Generoso tem um prazo de acareação de até 7 dias úteis após o início do processo."
+        }
+      }
+    },
+    {
+      "transportadora": {
+        "nome": "SOLISTICA",
+        "acareação": {
+          "prompt": "Prazo de acareação SOLISTICA",
+          "completions": "A Solistica tem um prazo de acareação de até 7 dias úteis após o início do processo."
+        }
+      }
+    },
+    {
+      "transportadora": {
+        "nome": "LOGGI",
+        "acareação": {
+          "prompt": "Prazo de acareação LOGGI",
+          "completions": "A LOGGI tem um prazo de acareação de até 72 horas úteis após o início do processo."
+        }
+      }
+    },
+    {
+    "transportadora": {
+      "nome": "CORREIOS",
+      "acareação": {
+        "prompt": "Prazo de acareação CORREIOS",
+        "completions": "Os CORREIOS têm um prazo de acareação de até 5 dias úteis após o início do processo."
+      },
+      "comprovante de entrega": {
+        "prompt": "Como pego comprovante de entrega dos Correios?",
+        "completions": "Você precisa entrar em contato com o setor de transportes via e-mail e solicitar o comprovante de entrega, passando o código de rastreio e o CPF do cliente."
+      }
+    }
   }
-]
+  ],
+  "sistemas": [
+    {
+      "sistema": {
+        "Protheus": {
+          "CCe": {
+            "prompt": "Como emitir uma CCe",
+            "completions": "Para emitir uma CCe utilizando o sistema Protheus, siga os passos abaixo:\n\nEstando logado em sua conta, acesse a Home, e no campo de pesquisar, busque por \"Impressão de NF-e\"\n\n- Na primeira aba, certifique-se de estar selecionado CCe.\n\n- Na segunda aba, insira se a nota é de entrada (NFD) ou de saída (NF) e a série é sempre 2.\n\nDigite no campo de pesquisa o número da NF que deseja emitir a CCe.\n\nVá na aba Outras ações > Transmitir > Clique em Avançar > Digite o que deseja na CCe respeitando as regras > Clique em Avançar > Finalizar.\n\nVá na aba Outras ações > Exportar para PDF e selecione o caminho da pasta > Finalizar > Não.\n\nVá até a pasta que selecionou que a CCe estará lá."
+          },
+          "CC-e": {
+            "prompt": "Como emitir uma CCe",
+            "completions": "Para emitir uma CCe utilizando o sistema Protheus, siga os passos abaixo:\n\nEstando logado em sua conta, acesse a Home, e no campo de pesquisar, busque por \"Impressão de NF-e\"\n\n- Na primeira aba, certifique-se de estar selecionado CCe.\n\n- Na segunda aba, insira se a nota é de entrada (NFD) ou de saída (NF) e a série é sempre 2.\n\nDigite no campo de pesquisa o número da NF que deseja emitir a CCe.\n\nVá na aba Outras ações > Transmitir > Clique em Avançar > Digite o que deseja na CCe respeitando as regras > Clique em Avançar > Finalizar.\n\nVá na aba Outras ações > Exportar para PDF e selecione o caminho da pasta > Finalizar > Não.\n\nVá até a pasta que selecionou que a CCe estará lá."
+          },
+          "CC": {
+            "prompt": "Como emitir uma CCe",
+            "completions": "Para emitir uma CCe utilizando o sistema Protheus, siga os passos abaixo:\n\nEstando logado em sua conta, acesse a Home, e no campo de pesquisar, busque por \"Impressão de NF-e\"\n\n- Na primeira aba, certifique-se de estar selecionado CCe.\n\n- Na segunda aba, insira se a nota é de entrada (NFD) ou de saída (NF) e a série é sempre 2.\n\nDigite no campo de pesquisa o número da NF que deseja emitir a CCe.\n\nVá na aba Outras ações > Transmitir > Clique em Avançar > Digite o que deseja na CCe respeitando as regras > Clique em Avançar > Finalizar.\n\nVá na aba Outras ações > Exportar para PDF e selecione o caminho da pasta > Finalizar > Não.\n\nVá até a pasta que selecionou que a CCe estará lá."
+          },
+          "Nota Fiscal": {
+            "prompt": "Como baixar nota fiscal ",
+            "completions": "Para baixar / emitir a Nota Fiscal utilizando o sistema Protheus, siga os passos abaixo:\n\nEstando logado em sua conta, acesse a Home, e no campo de pesquisar, busque por \"Impressão de NF-e\"\n\n- Na primeira aba, certifique-se de estar selecionado NF-e ou Nota Fiscal.\n\n- Na segunda aba, insira se a nota é de entrada (NFD) ou de saída (NF).\n\nVá na aba Outras ações > Imprimir NF-e > Clique em Ok > Digite nos dois campos a NF desejada > Selecione se é uma NF de Entrada ou de Saída > Finalizar."
+          },
+          "NF": {
+            "prompt": "Como emitir nf ",
+            "completions": "Para baixar / emitir a Nota Fiscal utilizando o sistema Protheus, siga os passos abaixo:\n\nEstando logado em sua conta, acesse a Home, e no campo de pesquisar, busque por \"Impressão de NF-e\"\n\n- Na primeira aba, certifique-se de estar selecionado NF-e ou Nota Fiscal.\n\n- Na segunda aba, insira se a nota é de entrada (NFD) ou de saída (NF).\n\nVá na aba Outras ações > Imprimir NF-e > Clique em Ok > Digite nos dois campos a NF desejada > Selecione se é uma NF de Entrada ou de Saída > Finalizar."
+          }
+        }
+      }
+    }
+  ]
+}

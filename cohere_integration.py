@@ -1,13 +1,11 @@
 import streamlit as st
-import pandas as pd
-import requests
 import json
-from langchain_community.vectorstores import FAISS
-from langchain_cohere import CohereEmbeddings
-from dotenv import load_dotenv
-from langchain.schema import Document
-import cohere
 import os
+import re
+import time
+from dotenv import load_dotenv
+import requests
+import cohere
 
 # Carregar as variáveis de ambiente
 load_dotenv()
@@ -19,9 +17,10 @@ if api_key is None:
 else:
     co = cohere.ClientV2(api_key)
 
-# Função para chamar a API do Cohere e reformular a resposta de forma mais precisa
-def generate_with_cohere(prompt):
-    url = 'https://api.cohere.ai/generate'
+# Função para chamar a API do Cohere e verificar se a completions tem relação com a pergunta
+def check_response_with_cohere(question, completion):
+    prompt = f"Pergunta do usuário: {question}\nResposta sugerida: {completion}\n\nA resposta sugerida está relacionada com a pergunta? Responda apenas 'sim' ou 'não'."
+    
     headers = {
         'Authorization': f'Bearer {api_key}',
         'Content-Type': 'application/json'
@@ -29,114 +28,94 @@ def generate_with_cohere(prompt):
     
     data = {
         'model': 'command-xlarge-nightly',
-        'prompt': f"{prompt} \n\nResponda estritamente à pergunta do usuário, baseando-se apenas nas informações fornecidas abaixo. Não adicione informações extras e não invente conteúdo. Se não houver uma resposta precisa, apenas diga que não encontrou uma resposta.",
-        'max_tokens': 90,
-        'temperature': 0.4  # Reduzimos ainda mais a temperatura para respostas mais objetivas
+        'prompt': prompt,
+        'max_tokens': 40,  # Para evitar respostas longas
+        'temperature': 0.2  # Tornar a resposta mais focada
     }
-
-    response = requests.post(url, headers=headers, json=data)
+    
+    response = requests.post('https://api.cohere.ai/generate', headers=headers, json=data)
     
     if response.status_code == 200:
         result = response.json()
         if 'text' in result:
-            return result['text'].strip()
+            return result['text'].strip().lower() == 'sim'
         else:
-            st.error("Resposta inesperada da API Cohere: 'text' não encontrado.")
-            st.json(result)
-            return "Erro: Resposta inesperada da API."
+            st.error("Erro ao verificar relação da resposta: 'text' não encontrado.")
+            return False
     else:
-        return f"Erro: {response.status_code} - {response.text}"
-
-# Função para reformular o título da conversa com base na primeira pergunta
-def generate_chat_title(prompt):
-    reformulation_prompt = f"Reformule a seguinte pergunta em forma de título, e que seja o mais curto possível, mantendo só o contexto. {prompt}"
-    return generate_with_cohere(reformulation_prompt)
+        st.error(f"Erro ao verificar relação da resposta: {response.status_code} - {response.text}")
+        return False
 
 # Função para carregar os dados do arquivo JSON
 @st.cache_resource
 def load_json_data():
     try:
-        # Carregar o arquivo JSON
-        with open('db_process.json', 'r') as f:
+        with open('db_process.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
-        
-        # Criar uma lista de documentos para o retriever a partir do conteúdo do JSON
-        documents = [Document(page_content=item['completions'], metadata={'prompt': item['prompt']}) for item in data]
-        
+        return data
     except Exception as e:
         st.error(f"Erro ao carregar os dados do JSON: {e}")
         return None
 
-    try:
-        # Inicializar embeddings Cohere
-        embeddings = CohereEmbeddings(model='embed-multilingual-light-v3.0', user_agent='HiperBot')
-    except ValueError as e:
-        st.error(f"Erro ao inicializar embeddings: {e}")
-        return None  
-
-    try:
-        # Criar o vectorstore com FAISS
-        vectorstore = FAISS.from_documents(documents, embeddings)
-    except Exception as e:
-        st.error(f"Erro ao criar o vectorstore: {e}")
-        return None  
-
-    retriever = vectorstore.as_retriever()
-    return retriever
-
 # Carregar a base de dados JSON
-retriever = load_json_data()
-if retriever is None:
+data = load_json_data()
+if data is None:
     st.stop()
 
 st.markdown("<h1 style='text-align: center;'>Assistente Virtual - Hiper Bot 🤖</h1>", unsafe_allow_html=True)
 
-# Função para executar a lógica de interação
+def extract_keywords(user_input):
+    keywords = ["prazo", "acareação", "transportadora", "protheus", "nota fiscal", "cce", "cc", "cc-e", "baixar", "emitir nf", "baixar nf", "imprimir nf", "nf", "emitir", "gerar", "jadlog", "generoso", "solistica", "correios", "favorita", "comprovante de entrega", "comprovante"]
+    found_keywords = [word for word in keywords if re.search(r'\b' + re.escape(word) + r'\b', user_input.lower())]
+    return found_keywords
+
 def run_chain(user_input):
-    # Limite de mensagens a serem enviadas como contexto (ajuste conforme necessário)
-    max_history = 5
+    data = load_json_data()
+    keywords = extract_keywords(user_input)
     
-    # Recuperar o histórico da conversa atual
-    selected_chat = st.session_state.selected_chat
-    if selected_chat and selected_chat in st.session_state.conversations:
-        conversation_history = st.session_state.conversations[selected_chat]
-        
-        # Criar um contexto formatado de perguntas e respostas
-        context = ""
-        for message in conversation_history[-max_history:]:
-            if message["role"] == "user":
-                context += f"Usuário: {message['content']}\n"
-            elif message["role"] == "assistant":
-                context += f"Assistente: {message['content']}\n"
-        
-        # Adicionar a nova pergunta ao contexto
-        prompt_with_history = f"{context}Usuário: {user_input}\nAssistente:"
-    else:
-        # Se não houver histórico, usar apenas a pergunta do usuário
-        prompt_with_history = f"Usuário: {user_input}\nAssistente:"
+    st.write(f"Palavras-chave encontradas: {keywords}")
+    response = None
 
-    # Primeiro, tente obter documentos relevantes com base na pergunta e no histórico
-    try:
-        # Usando o método `invoke` em vez de `get_relevant_documents`
-        documents = retriever.invoke(user_input)[:5]  # Pegamos os 5 documentos mais relevantes
+    if keywords:
+        for empresa in data["transportadoras"]:
+            transportadora_nome = empresa["transportadora"]["nome"].upper()
+            if transportadora_nome in user_input.upper():
+                for key in keywords:
+                    for sub_key, content in empresa["transportadora"].items():
+                        if key in sub_key.lower():
+                            possible_response = content.get("completions", "")
+                            if possible_response:
+                                response = possible_response
+                            break
+                if response:
+                    break
 
-        if documents:
-            # Obter a primeira resposta relevante
-            resposta = documents[0].page_content.strip()
+        if not response:
+            st.write("Verificando sistemas...")
+            for sistema in data["sistemas"]:
+                protheus = sistema["sistema"].get("Protheus", {})
+                for key in keywords:
+                    for sub_key, content in protheus.items():
+                        if key.lower() in sub_key.lower():
+                            possible_response = content.get("completions", "")
+                            if possible_response:
+                                response = possible_response
+                            break
+                if response:
+                    break
 
-            # Reformular a resposta baseada no conteúdo exato do documento e no histórico
-            final_response = generate_with_cohere(
-                f"Com base na informação a seguir: {resposta}, "
-                f"e considerando a pergunta do usuário: '{user_input}', "
-                "forneça uma resposta clara e direta que responda à nova pergunta."
-            )
-            return final_response
-            
-    except Exception as e:
-        st.error(f"Erro ao recuperar documentos: {e}")
+    return response if response else "Desculpe, não tenho informações suficientes para responder a essa pergunta no momento."
 
-    # Se nenhum documento relevante for encontrado ou a resposta for insuficiente
-    return "Desculpe, não tenho informações suficientes para responder a essa pergunta no momento."
+# Função para simular a digitação da resposta
+def simulate_typing(text):
+    # Cria um espaço vazio onde o texto será exibido
+    response_placeholder = st.empty()
+    
+    displayed_text = ""
+    for char in text:
+        time.sleep(0.005)  # Ajuste a velocidade da digitação
+        displayed_text += char  # Adiciona o caractere à string acumulada
+        response_placeholder.markdown(displayed_text)  # Atualiza o espaço com o texto acumulado
 
 # Inicializar sessão de conversas
 if 'conversations' not in st.session_state:
@@ -148,16 +127,13 @@ if 'selected_chat' not in st.session_state:
 st.sidebar.title("Conversas")
 chat_names = list(st.session_state.conversations.keys())
 
-# Botão para iniciar nova conversa
 if st.sidebar.button("Iniciar Nova Conversa"):
     st.session_state.selected_chat = ""
 
-# Listar conversas existentes e permitir seleção
 for chat_name in chat_names:
     if st.sidebar.button(chat_name):
         st.session_state.selected_chat = chat_name
 
-# Exibir mensagens da conversa selecionada
 selected_chat = st.session_state.selected_chat
 if selected_chat and selected_chat in st.session_state.conversations:
     messages = st.session_state.conversations[selected_chat]
@@ -165,26 +141,52 @@ if selected_chat and selected_chat in st.session_state.conversations:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-# Receber a entrada do usuário
-if user_input := st.chat_input("Você:"):
-    # Se uma conversa já estiver selecionada, adiciona a nova mensagem
+if user_input := st.chat_input("Você:", max_chars=100):
     if selected_chat:
         st.session_state.conversations[selected_chat].append({"role": "user", "content": user_input})
     else:
-        # Cria uma nova conversa com um título reformulado pela IA
-        chat_name = generate_chat_title(user_input[:50])  # Reformula o título baseado na primeira pergunta
-        st.session_state.conversations[chat_name] = []
-        st.session_state.conversations[chat_name].append({"role": "user", "content": user_input})
-        st.session_state.selected_chat = chat_name
+        st.session_state.conversations[user_input[:50]] = []
+        st.session_state.selected_chat = user_input[:50]
 
-    # Exibir mensagem do usuário no chat
     with st.chat_message("user"):
         st.markdown(user_input)
 
-    # Executar a função para gerar a resposta da IA
-    response = run_chain(user_input)
-    
-    # Adicionar a resposta da IA ao histórico
+    # Exibir loader enquanto a IA busca a resposta
+    with st.spinner("Aguarde enquanto a IA busca a resposta..."):
+        response = run_chain(user_input)
+        
+    # Usar um loader skeleton enquanto a IA digita a resposta
     with st.chat_message("assistant"):
-        st.markdown(response)
-        st.session_state.conversations[st.session_state.selected_chat].append({"role": "assistant", "content": response})
+        assistant_message_placeholder = st.empty()
+        
+        # Exibe o "skeleton loader" com animação
+        assistant_message_placeholder.markdown(
+            """
+            <style>
+                @keyframes pulse {
+                    0% { background-color: #e0e0e0; }
+                    50% { background-color: #c0c0c0; }
+                    100% { background-color: #e0e0e0; }
+                }
+                .skeleton {
+                    height: 20px; 
+                    width: 80%; 
+                    border-radius: 5px; 
+                    margin: 5px 0;
+                    animation: pulse 1.5s infinite;
+                }
+            </style>
+            <div class="skeleton"></div>
+            <div class="skeleton" style="width: 60%;"></div>
+            <div class="skeleton" style="width: 40%;"></div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        time.sleep(1)  # Simula o tempo de espera antes da IA começar a "digitar"
+
+        # Limpa o placeholder e começa a digitar a resposta
+        assistant_message_placeholder.empty()
+        simulate_typing(response)  # Simula a digitação da resposta
+        
+    st.session_state.conversations[st.session_state.selected_chat].append({"role": "assistant", "content": response})
