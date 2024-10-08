@@ -27,7 +27,7 @@ app = "oraculo"  # Substitua pelo nome da sua aplicação no Fly.io
     port = 443
 
 [deploy]
-  release_command = "pip install ."  # Instala as dependências listadas no setup.py
+  release_command = "pip install streamlit python-dotenv requests cohere"  # Instala as dependências listadas no setup.py
 
 [processes]
   app = "streamlit run cohere_integration.py --server.port 8080 --server.headless true"
