@@ -1,8 +1,7 @@
 app = "oraculo"  # Substitua pelo nome da sua aplicação no Fly.io
 
 [build]
-  # Define a imagem base que vai ser utilizada para a build
-  image = "python:3.9-slim"  # Escolha a versão do Python que você está usando
+  image = "python:3.11-slim"  # Usando a versão mais recente do Python
 
 [env]
   # Defina as variáveis de ambiente, se necessário
@@ -31,4 +30,4 @@ app = "oraculo"  # Substitua pelo nome da sua aplicação no Fly.io
   release_command = "pip install -r requirements.txt"  # Instala as dependências listadas no requirements.txt
 
 [processes]
-  app = "streamlit run cohere.integration.py --server.port 8080 --server.headless true"
+  app = "streamlit run cohere_integration.py --server.port 8080 --server.headless true"
