@@ -1,0 +1,34 @@
+app = "oraculo"  # Substitua pelo nome da sua aplicação no Fly.io
+
+[build]
+  # Define a imagem base que vai ser utilizada para a build
+  image = "python:3.9-slim"  # Escolha a versão do Python que você está usando
+
+[env]
+  # Defina as variáveis de ambiente, se necessário
+  PORT = "8080"  # Porta padrão para Streamlit no Fly.io
+
+[[services]]
+  http_checks = []
+  internal_port = 8080  # Porta que o Streamlit escuta
+  processes = ["app"]
+  protocol = "tcp"
+
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+[deploy]
+  release_command = "pip install -r requirements.txt"  # Instala as dependências listadas no requirements.txt
+
+[processes]
+  app = "streamlit run cohere.integration.py --server.port 8080 --server.headless true"
