@@ -50,7 +50,7 @@
       "nome": "CORREIOS",
       "acareação": {
         "prompt": "Prazo de acareação CORREIOS",
-        "completions": "Os CORREIOS têm um prazo de acareação de até 5 dias úteis após o início do processo."
+        "completions": "Os Correios têm um prazo de acareação de até 5 dias úteis após o início do processo."
       },
       "comprovante de entrega": {
         "prompt": "Como pego comprovante de entrega dos Correios?",
