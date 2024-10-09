@@ -62,8 +62,6 @@ data = load_json_data()
 if data is None:
     st.stop()
 
-st.markdown("<h1 style='text-align: center;'>Assistente Virtual - Hiper Bot 🤖</h1>", unsafe_allow_html=True)
-
 def extract_keywords(user_input):
     keywords = ["prazo", "acareação", "acareaçao", "transportadora", "protheus", "nota fiscal", "cce", "cc", "cc-e", "baixar", "emitir nf", "baixar nf", "imprimir nf", "nf", "emitir", "gerar", "jadlog", "generoso", "solistica", "correios", "favorita", "comprovante de entrega", "comprovante"]
     found_keywords = [word for word in keywords if re.search(r'\b' + re.escape(word) + r'\b', user_input.lower())]
@@ -201,7 +199,7 @@ if user_input := st.chat_input("Você:", max_chars=100):
             unsafe_allow_html=True
         )
 
-        time.sleep(1)  # Simula o tempo de espera antes da IA começar a "digitar"
+        time.sleep(1.2)  # Simula o tempo de espera antes da IA começar a "digitar"
 
         # Limpa o placeholder e começa a digitar a resposta
         assistant_message_placeholder.empty()
