@@ -17,4 +17,4 @@ primary_region = 'gig'
   processes = ['app']
 
 [processes]
-  app = "streamlit run cohere_integration.py --server.port 8080 --server.headless true"
+  app = "streamlit run cohere_integration.py --server.port 8080 --server.address 0.0.0.0 --server.headless true"
