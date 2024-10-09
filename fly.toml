@@ -17,10 +17,4 @@ primary_region = 'gig'
   processes = ['app']
 
 [processes]
-  [[processes.app]]
-  command = "streamlit run cohere_integration.py --server.port 8080 --server.address 0.0.0.0"
-
-[[vm]]
-  memory = '1gb'
-  cpu_kind = 'shared'
-  cpus = 1
+  app = "streamlit run cohere_integration.py --server.port 8080 --server.headless true"
