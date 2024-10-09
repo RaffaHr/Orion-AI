@@ -7,6 +7,10 @@ app = 'oraculo-quiet-water-3435'
 primary_region = 'gig'
 
 [build]
+  # Comando para instalar as dependências
+  commands = [
+    "pip install -r requirements.txt"
+  ]
 
 [http_service]
   internal_port = 8080
@@ -17,4 +21,4 @@ primary_region = 'gig'
   processes = ['app']
 
 [processes]
-  app = "streamlit run cohere_integration.py --server.port 8080 --server.address 0.0.0.0 --server.headless true"
+  app = "streamlit run cohere_integration.py --server.port 8080 --server.headless true"
