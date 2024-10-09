@@ -1,1 +1,0 @@
-web: streamlit run cohere_integration.py --server.port=$PORT --server.address=0.0.0.0
