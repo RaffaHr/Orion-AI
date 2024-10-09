@@ -1,33 +1,26 @@
-app = "oraculo"  # Substitua pelo nome da sua aplicação no Fly.io
+# fly.toml app configuration file generated for oraculo-quiet-water-3435 on 2024-10-09T00:53:03Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'oraculo-quiet-water-3435'
+primary_region = 'gig'
 
 [build]
-  image = "python:3.11-slim"  # Usando a versão mais recente do Python
 
-[env]
-  # Defina as variáveis de ambiente, se necessário
-  PORT = "8080"  # Porta padrão para Streamlit no Fly.io
-
-[[services]]
-  http_checks = []
-  internal_port = 8080  # Porta que o Streamlit escuta
-  processes = ["app"]
-  protocol = "tcp"
-
-  [services.concurrency]
-    type = "connections"
-    hard_limit = 25
-    soft_limit = 20
-
-  [[services.ports]]
-    handlers = ["http"]
-    port = 80
-
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = 443
-
-[deploy]
-  release_command = "pip install streamlit python-dotenv requests cohere"  # Instala as dependências listadas no setup.py
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
 [processes]
-  app = "streamlit run cohere_integration.py --server.port 8080 --server.headless true"
+  [[processes.app]]
+  command = "streamlit run cohere_integration.py --server.port 8080 --server.address 0.0.0.0"
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
