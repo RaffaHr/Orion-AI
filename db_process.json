@@ -42,6 +42,10 @@
         "acareação": {
           "prompt": "Prazo de acareação LOGGI",
           "completions": "A LOGGI tem um prazo de acareação de até 72 horas úteis após o início do processo."
+        },
+        "comprovante de entrega": {
+          "prompt": "Como pego comprovante de entrega na LOGGI?",
+          "completions": "1. **Acesse o portal de rastreamento da LOGGI.**  \n   - Certifique-se de que você está na página correta.\n\n2. **Insira o código de rastreamento do cliente.**  \n   - No campo designado, digite o código de rastreamento do cliente e abra o rastreamento correspondente.\n\n3. **Abra os detalhes do rastreamento.**  \n   - Clique nele para abrir os detalhes do rastreamento. Isso mostrará o status atual da entrega.\n\n4. **Clique em 'Ver detalhes' para acessar o comprovante de entrega.**  \n   - Caso o comprovante não esteja disponível, será necessário abrir um ticket com a LOGGI para solicitá-lo.\n\n5. **Ajuda adicional:**  \n   - Digite: *\"Como abrir um ticket na LOGGI\"* que eu te orientarei com o passo a passo."
         }
       }
     },
@@ -50,7 +54,7 @@
       "nome": "CORREIOS",
       "acareação": {
         "prompt": "Prazo de acareação CORREIOS",
-        "completions": "Os Correios têm um prazo de acareação de até 5 dias úteis após o início do processo."
+        "completions": "Os CORREIOS têm um prazo de acareação de até 5 dias úteis após o início do processo."
       },
       "comprovante de entrega": {
         "prompt": "Como pego comprovante de entrega dos Correios?",
