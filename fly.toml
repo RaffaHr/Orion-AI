@@ -21,4 +21,8 @@ primary_region = 'gig'
   processes = ['app']
 
 [processes]
-  app = "streamlit run cohere_integration.py --server.port 8080 --server.headless true"
+  app = "python3.12 -m streamlit run cohere_integration.py --server.port 8080 --server.headless true --server.address 0.0.0.0"
+
+[env]
+  # Define a versão do Python a ser utilizada
+  PYTHON_VERSION = "3.12.6"
