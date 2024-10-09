@@ -7,9 +7,9 @@ app = 'oraculo-quiet-water-3435'
 primary_region = 'gig'
 
 [build]
-  # Comando para instalar as dependências
   commands = [
-    "pip install -r requirements.txt"
+    "python3.12 -m pip install --upgrade pip",
+    "python3.12 -m pip install -r requirements.txt"
   ]
 
 [http_service]
