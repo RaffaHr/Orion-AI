@@ -109,7 +109,7 @@ def detect_reformulation_keywords(user_input):
 
 # Função para reformular o texto usando a API Cohere
 def reformulate_text_with_cohere(text):
-    prompt = f"Você agora é um profissional no atendimento, e visa sempre pela empatia ao cliente, e sempre fala visando na qualidade do atendimento e com palavras fáceis e claras de se entender, com base nisso, você vai reformular o seguinte texto e retorna-lo em markdonw e formate o texto para que tenha uma boa visibilidade: {text}"
+    prompt = f"Você agora é um profissional no atendimento, e visa sempre pela empatia ao cliente, e sempre fala visando na qualidade do atendimento e com palavras fáceis e claras de se entender, com base nisso, você vai reformular o seguinte texto e retorna-lo em markdonw e formate o texto para que tenha uma boa visibilidade, sem retornar tópicos, não faça titulos, opniões, ou assuntos externos, retorne somente o texto reformulado, não retorne frases comoo Espero ter ajudado com a reformulação ou algo do tipo; Caso o texto tenha uma assinatura mantenha a mesma do texto original, no mesmo formato!!; Sempre mantenha saudação como Bom dia, Boa tarde; Se for passado o nome de quem está se direcionando o texto, mantenha o direcionamento também para a pessoa citada: {text}"
     
     headers = {
         'Authorization': f'Bearer {api_key}',
