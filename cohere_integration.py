@@ -29,8 +29,8 @@ def check_response_with_cohere(question, completion):
     data = {
         'model': 'command-xlarge-nightly',
         'prompt': prompt,
-        'max_tokens': 40,  # Para evitar respostas longas
-        'temperature': 0.2  # Tornar a resposta mais focada
+        'max_tokens': 40,
+        'temperature': 0.2
     }
     
     response = requests.post('https://api.cohere.ai/generate', headers=headers, json=data)
@@ -102,16 +102,66 @@ def run_chain(user_input):
 
     return response if response else "Desculpe, não tenho informações suficientes para responder a essa pergunta no momento."
 
+# Função para detectar palavras-chave de reformulação
+def detect_reformulation_keywords(user_input):
+    reformulation_keywords = ["keep", "reformule", "formule", "reformular"]
+    return any(keyword in user_input.lower() for keyword in reformulation_keywords)
+
+# Função para reformular o texto usando a API Cohere
+def reformulate_text_with_cohere(text):
+    prompt = f"Você agora é um profissional no atendimento, e visa sempre pela empatia ao cliente, e sempre fala visando na qualidade do atendimento e com palavras fáceis e claras de se entender, com base nisso, você vai reformular o seguinte texto e retorna-lo em markdonw e formate o texto para que tenha uma boa visibilidade: {text}"
+    
+    headers = {
+        'Authorization': f'Bearer {api_key}',
+        'Content-Type': 'application/json'
+    }
+    
+    data = {
+        'model': 'command-xlarge-nightly',
+        'prompt': prompt,
+        'max_tokens': 350,
+        'temperature': 0.7
+    }
+    
+    response = requests.post('https://api.cohere.ai/generate', headers=headers, json=data)
+    
+    if response.status_code == 200:
+        result = response.json()
+        if 'text' in result:
+            return result['text'].strip()
+        else:
+            st.error("Erro ao reformular o texto: 'text' não encontrado.")
+            return None
+    else:
+        st.error(f"Erro ao chamar a API Cohere: {response.status_code} - {response.text}")
+        return None
+
+# Função principal para lidar com a interação do usuário
+def handle_chat(user_input):
+    if detect_reformulation_keywords(user_input):
+        reformulation_text = re.sub(r'\b(keep|reformule|formule|reformular)\b', '', user_input, flags=re.IGNORECASE).strip()
+        
+        if reformulation_text:
+            reformulated_response = reformulate_text_with_cohere(reformulation_text)
+            
+            if reformulated_response:
+                return reformulated_response
+            else:
+                return "Não foi possível reformular o texto."
+        else:
+            return "Nenhum texto encontrado para reformular."
+    else:
+        return run_chain(user_input)
+
 # Função para simular a digitação da resposta
 def simulate_typing(text):
-    # Cria um espaço vazio onde o texto será exibido
     response_placeholder = st.empty()
     
     displayed_text = ""
     for char in text:
-        time.sleep(0.005)  # Ajuste a velocidade da digitação
-        displayed_text += char  # Adiciona o caractere à string acumulada
-        response_placeholder.markdown(displayed_text)  # Atualiza o espaço com o texto acumulado
+        time.sleep(0.005)
+        displayed_text += char
+        response_placeholder.markdown(displayed_text)
 
 # Inicializar sessão de conversas
 if 'conversations' not in st.session_state:
@@ -137,61 +187,56 @@ if selected_chat and selected_chat in st.session_state.conversations:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-if user_input := st.chat_input("Você:", max_chars=100):
-    # Verifica se já existe uma conversa selecionada
+if user_input := st.chat_input("Você:", max_chars=2000):
     if selected_chat:
-        # Adiciona a mensagem do usuário ao histórico da conversa selecionada
         st.session_state.conversations[selected_chat].append({"role": "user", "content": user_input})
     else:
-        # Cria uma nova conversa e adiciona a mensagem do usuário
-        st.session_state.conversations[user_input[:50]] = [{"role": "user", "content": user_input}]  # Adiciona a primeira mensagem
+        st.session_state.conversations[user_input[:50]] = [{"role": "user", "content": user_input}]
         st.session_state.selected_chat = user_input[:50]
 
     with st.chat_message("user"):
         st.markdown(user_input)
 
     # Exibir loader enquanto a IA busca a resposta
-    with st.spinner("Aguarde enquanto a IA busca a resposta..."):
-        response = run_chain(user_input)
-        
-    # Usar um loader skeleton enquanto a IA digita a resposta
+    with st.spinner("Aguarde enquanto a IA processa sua solicitação..."):
+        response = handle_chat(user_input)
+
+    # Exibe o "skeleton loader" com animação enquanto processa
     with st.chat_message("assistant"):
         assistant_message_placeholder = st.empty()
-        
-        # Exibe o "skeleton loader" com animação
         assistant_message_placeholder.markdown(
             """
             <style>
                 @keyframes move {
                     0% {
-                        background-color: #f0f0f0; /* Cor inicial (cinza claro) */
-                        transform: translateX(-100%); /* Começa fora da tela à esquerda */
+                        background-color: #f0f0f0;
+                        transform: translateX(-100%);
                     }
                     50% {
-                        background-color: #e0e0e0; /* Cor intermediária (cinza um pouco mais escuro) */
+                        background-color: #e0e0e0;
                     }
                     100% {
-                        background-color: #f0f0f0; /* Volta à cor inicial (cinza claro) */
-                        transform: translateX(100%); /* Sai da tela à direita */
+                        background-color: #f0f0f0;
+                        transform: translateX(100%);
                     }
                 }
                 .skeleton {
-                    height: 30px;  /* Aumente a altura para maior visibilidade */
-                    width: 80%; 
-                    border-radius: 5px; 
-                    margin: 8px 0; 
-                    overflow: hidden; /* Para evitar que a parte animada saia do contêiner */
-                    position: relative; /* Necessário para animação */
-                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* Sombra mais suave */
+                    height: 30px;
+                    width: 80%;
+                    border-radius: 5px;
+                    margin: 8px 0;
+                    overflow: hidden;
+                    position: relative;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
                 }
                 .skeleton::before {
-                    content: ''; 
-                    position: absolute; 
-                    height: 100%; 
-                    width: 100%; 
-                    background-color: #f0f0f0; /* Cor inicial (cinza claro) */
-                    animation: move 1.5s infinite; /* Duração da animação */
-                    z-index: 1; /* Para estar acima da camada de fundo */
+                    content: '';
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    background-color: #f0f0f0;
+                    animation: move 1.5s infinite;
+                    z-index: 1;
                 }
             </style>
             <div class="skeleton"></div>
@@ -199,11 +244,9 @@ if user_input := st.chat_input("Você:", max_chars=100):
             unsafe_allow_html=True
         )
 
-        time.sleep(1.2)  # Simula o tempo de espera antes da IA começar a "digitar"
+        time.sleep(1.2)
 
-        # Limpa o placeholder e começa a digitar a resposta
         assistant_message_placeholder.empty()
-        simulate_typing(response)  # Simula a digitação da resposta
-        
-    # Adiciona a resposta da IA ao histórico da conversa
+        simulate_typing(response)
+
     st.session_state.conversations[st.session_state.selected_chat].append({"role": "assistant", "content": response})
